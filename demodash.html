@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+</head>
+
+<body>
+
+    <h1>Dashboard</h1>
+
+    <div class="farmid">
+        <p id="fid"></p>
+    </div>
+    <h2>Add Records</h2>
+    <div class="nav">
+        <a href="chicken.html">Chicken</a>
+        <a href="feed.html">Feed</a>
+        <a href="egg.html">Egg</a>
+        <a href="sales.html">Sales</a>
+        <a href="expense.html">Expense</a>
+        <a href="vaccination.html">Vaccination</a>
+    </div>
+    <div class="logout">
+        <button id="logoutBtn">Logout</button>
+    </div>
+    <div id="adminSection">
+
+        <div class="createuser">
+            <h2>Create User</h2>
+            <input id="cfarmId" placeholder="Farm ID">
+            <input id="cusername" placeholder="Username">
+            <input id="cpassword" type="password" placeholder="Password">
+            <select id="role">
+                <option value="">Select Role</option>
+                <option value="ADMIN">Admin</option>
+                <option value="USER">User</option>
+            </select>
+            <button onclick="createUser()">Create User</button>
+        </div>
+    </div>
+    <h2>See Records</h2>
+    <div class="Records">
+        <a href="chickenfetch.html">Chicken Stock Records</a>
+        <a href="eggfetch.html">Egg Records</a>
+        <a href="expensefetch.html">Expense Records</a>
+        <a href="feedfetch.html">Feed Records</a>
+        <a href="salesfetch.html">Sales Records</a>
+        <a href="vaccinationfetch.html">Vaccination Records</a>
+    </div>
+<hr>
+<h2>Egg Chart </h2>
+<canvas id="eggChart" style="height:300px;"></canvas>
+<h2>Feed Chart</h2>
+<canvas id="feedChart" style="height:300px;"></canvas>
+<h2>Sales Chart</h2>
+<canvas id="salesChart" style="height:300px;"></canvas>
+<h2>Bird Chart</h2>
+<canvas id="birdChart" style="height:300px;"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
+<script src="graphs.js"></script>
+<script src="app.js"></script>
+</body>
+
+</html>

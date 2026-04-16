@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            display: flex;
+            background: #f6f6f6;
+        }
+
+        /* 🔴 SIDEBAR */
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            background: linear-gradient(#e53935, #c62828);
+            color: white;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* 🔴 MAIN */
+        .main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        /* TOP BAR */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .logout button {
+            padding: 8px 15px;
+            border: none;
+            background: #e53935;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* CARDS */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .card h4 {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .card h2 {
+            color: #e53935;
+        }
+
+        /* CHART SECTION */
+        .charts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .chart-box {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* ADMIN SECTION */
+        .createuser {
+            background: white;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        .createuser input,
+        .createuser select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .createuser button {
+            width: 100%;
+            padding: 10px;
+            background: #e53935;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- 🔴 SIDEBAR -->
+    <div class="sidebar">
+        <h2>🐔 Poultry</h2>
+
+        <a href="dashboard.html">Dashboard</a>
+        <a href="egg.html">Egg Production</a>
+        <a href="chicken.html">Bird Management</a>
+        <a href="feed.html">Feed Management</a>
+        <a href="sales.html">Sales</a>
+        <a href="vaccination.html">Vaccination</a>
+    </div>
+
+    <!-- 🔴 MAIN -->
+    <div class="main">
+
+        <!-- TOP BAR -->
+        <div class="topbar">
+            <h1>Dashboard</h1>
+
+            <div class="logout">
+                <button onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <!-- FARM ID -->
+        <div class="farmid">
+            <p id="fid"></p>
+        </div>
+
+        <!-- CARDS -->
+        <div class="cards">
+            <div class="card">
+                <h4>Total Eggs Today</h4>
+                <h2>5,325</h2>
+            </div>
+            <div class="card">
+                <h4>Total Birds</h4>
+                <h2>5,500</h2>
+            </div>
+            <div class="card">
+                <h4>Feed Consumption</h4>
+                <h2>85KG</h2>
+            </div>
+            <div class="card">
+                <h4>Egg Stock</h4>
+                <h2>400 Tray</h2>
+            </div>
+        </div>
+
+        <!-- CHARTS -->
+        <div class="charts">
+
+            <div class="chart-box">
+                <h3>Egg Chart</h3>
+                <canvas id="eggChart"></canvas>
+            </div>
+
+            <div class="chart-box">
+                <h3>Feed Chart</h3>
+                <canvas id="feedChart"></canvas>
+            </div>
+
+            <div class="chart-box">
+                <h3>Sales Chart</h3>
+                <canvas id="salesChart"></canvas>
+            </div>
+
+            <div class="chart-box">
+                <h3>Bird Chart</h3>
+                <canvas id="birdChart"></canvas>
+            </div>
+
+        </div>
+
+        <!-- ADMIN SECTION -->
+        <div id="adminSection">
+            <div class="createuser">
+                <h2>Create User</h2>
+                <input id="cfarmId" placeholder="Farm ID">
+                <input id="cusername" placeholder="Username">
+                <input id="cpassword" type="password" placeholder="Password">
+                <select id="role">
+                    <option value="">Select Role</option>
+                    <option value="ADMIN">Admin</option>
+                    <option value="USER">User</option>
+                </select>
+                <button onclick="createUser()">Create User</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="graphs.js"></script>
+    <script src="app.js"></script>
+
+</body>
+
+</html>

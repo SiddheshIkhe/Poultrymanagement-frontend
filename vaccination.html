@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaccination</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 120px; /* FIXED overlap */
+            position: relative;
+        }
+
+        /* Top red curve */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #ff4d4d, #c62828);
+            border-bottom-left-radius: 60% 100%;
+            border-bottom-right-radius: 60% 100%;
+            z-index: -1;
+        }
+
+        /* Header */
+        header {
+            position: absolute;
+            top: 40px;
+        }
+
+        header h2 {
+            color: #fff;
+            font-size: 26px;
+            letter-spacing: 1px;
+        }
+
+        /* Back button */
+        .back {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+        }
+
+        .back a {
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 20px;
+            background: white;
+            color: #e53935;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .back a:hover {
+            background: #e53935;
+            color: white;
+        }
+
+        /* Main */
+        main {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Card */
+        .vacciinput {
+            width: 700px;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Title */
+        .vacciinput::before {
+            content: "Vaccination Entry";
+            grid-column: span 2;
+            text-align: center;
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        /* Labels */
+        label {
+            font-size: 14px;
+            color: #444;
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        label::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background: #e53935;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        /* Inputs */
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            background: #fafafa;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #e53935;
+            box-shadow: 0 0 6px rgba(229,57,53,0.3);
+            background: #fff;
+        }
+
+        /* Full width field */
+        .full {
+            grid-column: span 2;
+        }
+
+        /* Button */
+        button {
+            grid-column: span 2;
+            margin-top: 20px;
+            padding: 15px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #ff4d4d, #e53935);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(229,57,53,0.4);
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #e53935, #b71c1c);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .vacciinput {
+                width: 90%;
+                grid-template-columns: 1fr;
+            }
+
+            .full,
+            button {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h2>Vaccination</h2>
+    </header>
+
+    <main>
+
+        <div class="back">
+            <a href="dashboard.html">home</a>
+        </div>
+
+        <div class="vacciinput">
+
+            <div>
+                <label>Date of Vaccination</label>
+                <input type="date" id="vDate">
+            </div>
+
+            <div>
+                <label>Vaccine Name</label>
+                <input type="text" id="vaccineName" placeholder="Select vaccine">
+            </div>
+
+            <div>
+                <label>Age of Birds (in days)</label>
+                <input type="number" id="age" placeholder="Enter age in days">
+            </div>
+
+            <div>
+                <label>Total Birds Vaccinated</label>
+                <input type="number" id="birdsVac" placeholder="Enter number of birds">
+            </div>
+
+            <div>
+                <label>Medicine Batch No</label>
+                <input type="text" id="batch" placeholder="Enter batch number">
+            </div>
+
+            <div>
+                <label>Next Due Date</label>
+                <input type="date" id="nextDue">
+            </div>
+
+            <div>
+                <label>Cost of Vaccination (₹)</label>
+                <input type="number" id="cost" placeholder="Enter cost in ₹">
+            </div>
+
+            <div>
+                <label>Administered By</label>
+                <input type="text" id="admin" placeholder="Enter name">
+            </div>
+
+            <div class="full">
+                <label>Notes / Remarks</label>
+                <input type="text" id="remark" placeholder="Enter remarks">
+            </div>
+
+            <button id="addVaccinationBtn">Add Vaccination Record</button>
+
+        </div>
+        <div>
+            <a href="vaccinationfetch.html">See Vaccination records</a>
+        </div>
+
+    </main>
+
+    <script src="vaccination.js"></script>
+
+</body>
+</html>

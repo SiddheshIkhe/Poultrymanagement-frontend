@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chicken Stock</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 120px;
+            position: relative;
+        }
+
+        /* Top red curve */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #ff4d4d, #c62828);
+            border-bottom-left-radius: 60% 100%;
+            border-bottom-right-radius: 60% 100%;
+            z-index: -1;
+        }
+
+        /* Header centered */
+        header {
+            position: absolute;
+            top: 40px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        header h2 {
+            color: #fff;
+            font-size: 26px;
+            letter-spacing: 1px;
+        }
+
+        /* Home button */
+        .homeBotton {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+        }
+
+        .homeBotton a {
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 20px;
+            background: #fff;
+            color: #e53935;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .homeBotton a:hover {
+            background: #e53935;
+            color: #fff;
+        }
+
+        /* Main */
+        main {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Card */
+        .chickeninput {
+            width: 500px;
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Heading */
+        .heading h3 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        /* Input section */
+        .input {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Labels */
+        label {
+            font-size: 14px;
+            color: #444;
+            font-weight: 600;
+        }
+
+        label::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background: #e53935;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        /* Inputs */
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            outline: none;
+            background: #fafafa;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #e53935;
+            box-shadow: 0 0 6px rgba(229,57,53,0.3);
+            background: #fff;
+        }
+
+        /* Button */
+        .button {
+            margin-top: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #ff4d4d, #e53935);
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(229,57,53,0.4);
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #e53935, #b71c1c);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .chickeninput {
+                width: 90%;
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h2>Chicken Stock</h2>
+    </header>
+
+    <main>
+
+        <section class="homeBotton">
+            <a href="dashboard.html">home</a>
+        </section>
+
+        <section class="chickeninput">
+
+            <div class="heading">
+                <h3>Add Chicken Stock Data</h3>
+            </div>
+
+            <div class="input">
+
+                <label>Date</label>
+                <input type="date" id="date">
+
+                <label>Total Birds</label>
+                <input type="number" id="totalBirds" placeholder="Total Birds">
+
+                <label>Mortality</label>
+                <input type="number" id="mortality" placeholder="Mortality">
+
+                <div class="button">
+                    <button id="addChickenBtn">Add</button>
+                </div>
+
+            </div>
+            <div>
+                <a href="chickenfetch.html">See Chicken Records</a>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="chicken.js"></script>
+
+</body>
+</html>

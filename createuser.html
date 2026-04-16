@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Poultry System</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Reuse base styles (same as previous pages) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    height: 100vh;
+    background: linear-gradient(to right, #fdf2f2, #f8eaea);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Header */
+header {
+    position: absolute;
+    top: 50px;
+    text-align: center;
+}
+
+header h1 {
+    color: #c62828;
+    font-size: 50px;
+    letter-spacing: 1px;
+}
+
+/* Layout */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Create User Card */
+.createuser {
+    width: 350px;
+    background: #f7f7f7;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Title */
+.createuser h2 {
+    font-size: 25px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #444;
+    text-align: center;
+}
+
+/* Inputs & Select */
+input, select {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    outline: none;
+    background: white;
+    transition: 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: #e53935;
+    box-shadow: 0 0 6px rgba(229,57,53,0.3);
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #ff4d4d, #e53935);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(229,57,53,0.3);
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #e53935, #c62828);
+}
+
+/* Login Link Button Style */
+.login {
+    margin-top: 20px;
+}
+
+.login a {
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #ff4d4d, #e53935);
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 6px 15px rgba(229,57,53,0.3);
+    transition: 0.3s;
+}
+
+.login a:hover {
+    background: linear-gradient(135deg, #e53935, #c62828);
+}
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Poultry Management</h1>
+    </header>
+    <main>
+        
+        <div class="createuser">
+            <h2>Create User</h2>
+            <input id="cfarmId" placeholder="Farm ID">
+            <input id="cusername" placeholder="Username">
+            <input id="cpassword" type="password" placeholder="Password">
+            <select id="role">
+                <option value="">Select Role</option>
+                <option value="ADMIN">Admin</option>
+                <option value="USER">User</option>
+            </select>
+            <button id="createUserBtn">Create User</button>
+        </div>
+        <div class="login">
+            <a href="index.html">Login</a>
+
+        </div>
+    </main>
+    <script src="user.js"></script>
+</body>
+
+</html>

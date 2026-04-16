@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 120px;
+            position: relative;
+        }
+
+        /* Top red curve */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #ff4d4d, #c62828);
+            border-bottom-left-radius: 60% 100%;
+            border-bottom-right-radius: 60% 100%;
+            z-index: -1;
+        }
+
+        /* Header */
+        header {
+            position: absolute;
+            top: 40px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        header h2 {
+            color: #fff;
+            font-size: 28px;
+        }
+
+        /* Home Button */
+        .back {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+        }
+
+        .back a {
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 20px;
+            background: #fff;
+            color: #e53935;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .back a:hover {
+            background: #e53935;
+            color: #fff;
+        }
+
+        /* Card */
+        .feedinput {
+            width: 500px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Title inside card */
+        .feedinput::before {
+            content: "Add Daily Feed";
+            font-size: 24px;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        /* Labels */
+        label {
+            font-size: 14px;
+            color: #444;
+            font-weight: 600;
+        }
+
+        label::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background: #e53935;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        /* Inputs */
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            background: #fafafa;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #e53935;
+            box-shadow: 0 0 6px rgba(229,57,53,0.3);
+            background: #fff;
+        }
+
+        /* Button */
+        button {
+            margin-top: 15px;
+            padding: 14px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #ff4d4d, #e53935);
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(229,57,53,0.4);
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #e53935, #b71c1c);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .feedinput {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h2>Daily Feed</h2>
+    </header>
+
+    <main>
+
+        <div class="back">
+            <a href="dashboard.html">home</a>
+        </div>
+
+        <div class="feedinput">
+
+            <label>Date</label>
+            <input type="date" id="fDate">
+
+            <label>Maka (kg)</label>
+            <input type="number" id="maka" placeholder="Maka">
+
+            <label>Soya (kg)</label>
+            <input type="number" id="soya" placeholder="Soya">
+
+            <label>Dorb (kg)</label>
+            <input type="number" id="dorb" placeholder="Dorb">
+
+            <label>Marble (kg)</label>
+            <input type="number" id="marble" placeholder="Marble">
+
+            <label>5% Mix (kg)</label>
+            <input type="number" id="fivepercent" placeholder="5%">
+
+            <button id="addFeedBtn">Add Feed</button>
+
+        </div>
+        <div>
+            <a href="feedfetch.html">See Feed Records</a>
+        </div>
+
+    </main>
+
+    <script src="feed.js"></script>
+
+</body>
+
+</html>

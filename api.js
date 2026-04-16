@@ -1,0 +1,1 @@
+window.BASE_URL = "https://poultrymanagementsystemproject.onrender.com/api";

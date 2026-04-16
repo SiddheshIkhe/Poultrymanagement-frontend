@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Record</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 120px;
+            position: relative;
+        }
+
+        /* Top red curve */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #ff4d4d, #c62828);
+            border-bottom-left-radius: 60% 100%;
+            border-bottom-right-radius: 60% 100%;
+            z-index: -1;
+        }
+
+        /* Header */
+        h2 {
+            position: absolute;
+            top: 40px;
+            color: #fff;
+            font-size: 26px;
+            letter-spacing: 1px;
+        }
+
+        /* Home Button */
+        .homeBotton {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+        }
+
+        .homeBotton a {
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 20px;
+            background: #fff;
+            color: #e53935;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .homeBotton a:hover {
+            background: #e53935;
+            color: #fff;
+        }
+
+        /* Card */
+        .salesoutput {
+            width: 500px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* Labels */
+        label {
+            font-size: 14px;
+            color: #444;
+            font-weight: 600;
+        }
+
+        label::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background: #e53935;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        /* Inputs */
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            background: #fafafa;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #e53935;
+            box-shadow: 0 0 6px rgba(229,57,53,0.3);
+            background: #fff;
+        }
+
+        /* Button */
+        button {
+            margin-top: 10px;
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #ff4d4d, #e53935);
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(229,57,53,0.4);
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #e53935, #b71c1c);
+        }
+
+        /* Table Card */
+        .salestable {
+            width: 80%;
+            max-width: 900px;
+            background: #fff;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            overflow-x: auto;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        table thead {
+            background: linear-gradient(135deg, #ff4d4d, #e53935);
+            color: #fff;
+        }
+
+        table th {
+            padding: 14px;
+            font-weight: 600;
+        }
+
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        table tbody tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        table tbody tr:hover {
+            background: #ffe5e5;
+        }
+
+        table:empty::after {
+            content: "No sales records found";
+            display: block;
+            padding: 20px;
+            color: #888;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .salesoutput {
+                width: 90%;
+            }
+
+            .salestable {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Sales Data - Date Wise</h2>
+
+    <section class="homeBotton">
+        <a href="dashboard.html">home</a>
+    </section>
+
+    <div class="salesoutput">
+
+        <label>Start Date</label>
+        <input type="date" id="sFrom">
+
+        <label>End Date</label>
+        <input type="date" id="sTo">
+
+        <button id="getSalesBtn">Fetch</button>
+
+    </div>
+
+    <div class="salestable">
+        <table id="salesTable"></table>
+    </div>
+
+    <script src="sales.js"></script>
+
+</body>
+</html>
