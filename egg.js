@@ -1,58 +1,108 @@
+// 🔒 Guards
+let isAddingEgg = false;
+
+// ================= INIT =================
 document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("addEggBtn");
-    if (btn) btn.addEventListener("click", addEgg);
+    const addBtn = document.getElementById("addEggBtn");
+    const getBtn = document.getElementById("getEggBtn");
+
+    if (addBtn) addBtn.addEventListener("click", addEgg);
+    if (getBtn) getBtn.addEventListener("click", getEgg);
 });
 
+// ================= ADD EGG =================
 async function addEgg() {
+    if (isAddingEgg) return;
+
+    const btn = document.getElementById("addEggBtn");
+
     try {
+        isAddingEgg = true;
+
+        if (btn) {
+            btn.disabled = true;
+            btn.innerText = "Adding...";
+        }
+
         const farmId = localStorage.getItem("farmId");
 
-        await fetch(`${BASE_URL}/egg-production`, {
+        if (!farmId) throw new Error("Farm missing");
+
+        const date = document.getElementById("eDate")?.value;
+        const trays = document.getElementById("trays")?.value;
+
+        // ✅ Validation
+        if (!date || !trays) {
+            throw new Error("All fields are required");
+        }
+
+        const res = await fetch(`${BASE_URL}/egg-production`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                date: document.getElementById("eDate")?.value,
-                numberOfTrays: document.getElementById("trays")?.value,
+                date,
+                numberOfTrays: Number(trays),
                 farm: { id: Number(farmId) }
             })
         });
 
-        alert("Egg added");
+        if (!res.ok) {
+            const text = await res.text();
+            throw new Error(text || "Failed to add egg");
+        }
 
-    } catch {
-        alert("Error adding egg");
+        alert("Egg added successfully");
+
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    } finally {
+        isAddingEgg = false;
+
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = "Add Egg";
+        }
     }
 }
-document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("getEggBtn");
-    if (btn) btn.addEventListener("click", getEgg);
-});
 
+// ================= GET EGG =================
 async function getEgg() {
+    const btn = document.getElementById("getEggBtn");
+
     try {
+        if (btn) {
+            btn.disabled = true;
+            btn.innerText = "Loading...";
+        }
+
         const farmId = localStorage.getItem("farmId");
 
         if (!farmId) {
-            alert("Farm ID not found. Please create/select farm.");
-            return;
+            throw new Error("Farm ID not found");
         }
 
-        const url = `${BASE_URL}/egg-production/${farmId}/filter?from=${eFrom.value}&to=${eTo.value}`;
+        const from = document.getElementById("eFrom")?.value;
+        const to = document.getElementById("eTo")?.value;
 
-        console.log("Fetching Egg:", url);   // 🔥 DEBUG
+        if (!from || !to) {
+            throw new Error("Select date range");
+        }
+
+        const url = `${BASE_URL}/egg-production/${farmId}/filter?from=${from}&to=${to}`;
+
+        console.log("Fetching Egg:", url);
 
         const res = await fetch(url);
 
         if (!res.ok) {
-            throw new Error("Server error: " + res.status);
+            const text = await res.text();
+            throw new Error(text || "Server error");
         }
 
         const data = await res.json();
 
-        if (data.length === 0) {
-            eggTable.innerHTML = "<tr><td colspan='2'>No data found</td></tr>";
-            return;
-        }
+        const table = document.getElementById("eggTable");
 
         let html = `
 <tr>
@@ -62,20 +112,29 @@ async function getEgg() {
 </tr>
 `;
 
-        data.forEach(d => {
-            html += `
-        <tr>
-            <td>${d.date}</td>
-            <td>${d.numberOfTrays ?? 0}</td>
-            <td>${d.totalEggs ?? (d.numberOfTrays * 30)}</td>
-        </tr>
-    `;
-        });
+        if (data.length === 0) {
+            html += `<tr><td colspan="3">No data found</td></tr>`;
+        } else {
+            data.forEach(d => {
+                html += `
+<tr>
+    <td>${d.date}</td>
+    <td>${d.numberOfTrays ?? 0}</td>
+    <td>${d.totalEggs ?? (d.numberOfTrays * 30)}</td>
+</tr>
+`;
+            });
+        }
 
-        eggTable.innerHTML = html;
+        table.innerHTML = html;
 
     } catch (err) {
         console.error(err);
-        alert("Error fetching egg");
+        alert(err.message);
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = "Get Egg Data";
+        }
     }
 }

@@ -1,50 +1,106 @@
+// 🔒 Guard
+let isAddingExpense = false;
+
+// ================= INIT =================
 document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("addExpenseBtn");
-    if (btn) btn.addEventListener("click", addExpense);
+    const addBtn = document.getElementById("addExpenseBtn");
+    const getBtn = document.getElementById("getExpenseBtn");
+
+    if (addBtn) addBtn.addEventListener("click", addExpense);
+    if (getBtn) getBtn.addEventListener("click", getExpense);
 });
 
+// ================= ADD EXPENSE =================
 async function addExpense() {
+    if (isAddingExpense) return;
+
+    const btn = document.getElementById("addExpenseBtn");
+
     try {
+        isAddingExpense = true;
+
+        if (btn) {
+            btn.disabled = true;
+            btn.innerText = "Adding...";
+        }
+
         const farmId = localStorage.getItem("farmId");
 
-        await fetch(`${BASE_URL}/expense`, {
+        if (!farmId) throw new Error("Farm missing");
+
+        const date = document.getElementById("dDate")?.value;
+        const desc = document.getElementById("desc")?.value;
+        const amount = document.getElementById("amount")?.value;
+
+        // ✅ Validation
+        if (!date || !desc || !amount) {
+            throw new Error("All fields are required");
+        }
+
+        const res = await fetch(`${BASE_URL}/expense`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                date: document.getElementById("dDate")?.value,
-                descriptionOfExpense: document.getElementById("desc")?.value,
-                amount: document.getElementById("amount")?.value,
+                date,
+                descriptionOfExpense: desc,
+                amount: Number(amount),
                 farm: { id: Number(farmId) }
             })
         });
 
-        alert("Expense added");
+        if (!res.ok) {
+            const text = await res.text();
+            throw new Error(text || "Failed to add expense");
+        }
 
-    } catch {
-        alert("Error adding expense");
+        alert("Expense added successfully");
+
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    } finally {
+        isAddingExpense = false;
+
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = "Add Expense";
+        }
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("getExpenseBtn");
-    if (btn) btn.addEventListener("click", getExpense);
-});
+// ================= GET EXPENSE =================
 async function getExpense() {
+    const btn = document.getElementById("getExpenseBtn");
+
     try {
+        if (btn) {
+            btn.disabled = true;
+            btn.innerText = "Loading...";
+        }
+
         const farmId = localStorage.getItem("farmId");
 
-        const url = `${BASE_URL}/expense/${farmId}/filter?from=${dFrom.value}&to=${dTo.value}`;
+        if (!farmId) throw new Error("Farm missing");
+
+        const from = document.getElementById("dFrom")?.value;
+        const to = document.getElementById("dTo")?.value;
+
+        if (!from || !to) {
+            throw new Error("Select date range");
+        }
+
+        const url = `${BASE_URL}/expense/${farmId}/filter?from=${from}&to=${to}`;
 
         const res = await fetch(url);
 
-        if (!res.ok) throw new Error("Server error: " + res.status);
+        if (!res.ok) {
+            const text = await res.text();
+            throw new Error(text || "Server error");
+        }
 
         const data = await res.json();
 
-        if (data.length === 0) {
-            expenseTable.innerHTML = "<tr><td colspan='3'>No data found</td></tr>";
-            return;
-        }
+        const table = document.getElementById("expenseTable");
 
         let html = `
             <tr>
@@ -54,20 +110,29 @@ async function getExpense() {
             </tr>
         `;
 
-        data.forEach(d => {
-            html += `
-                <tr>
-                    <td>${d.date}</td>
-                    <td>${d.descriptionOfExpense}</td>
-                    <td>${d.amount}</td>
-                </tr>
-            `;
-        });
+        if (data.length === 0) {
+            html += `<tr><td colspan="3">No data found</td></tr>`;
+        } else {
+            data.forEach(d => {
+                html += `
+                    <tr>
+                        <td>${d.date}</td>
+                        <td>${d.descriptionOfExpense}</td>
+                        <td>${d.amount}</td>
+                    </tr>
+                `;
+            });
+        }
 
-        expenseTable.innerHTML = html;
+        table.innerHTML = html;
 
     } catch (err) {
         console.error(err);
-        alert("Error fetching expense");
+        alert(err.message);
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = "Get Expense Data";
+        }
     }
 }

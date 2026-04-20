@@ -1,1 +1,2 @@
-window.BASE_URL = "https://poultrymanagementsystemproject.onrender.com/api";
+window.BASE_URL = "https://poultrymanagementsystemproject-production.up.railway.app/api";
+

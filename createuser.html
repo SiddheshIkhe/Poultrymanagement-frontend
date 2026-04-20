@@ -3,7 +3,6 @@
 
 <head>
     <title>Poultry System</title>
-    <link rel="stylesheet" href="style.css">
     <style>
         /* Reuse base styles (same as previous pages) */
 * {
@@ -136,14 +135,15 @@ button:hover {
                 <option value="ADMIN">Admin</option>
                 <option value="USER">User</option>
             </select>
-            <button id="createUserBtn">Create User</button>
+            <button id="createUserBtn" onclick="createUser()">Create User</button>
         </div>
         <div class="login">
             <a href="index.html">Login</a>
 
         </div>
     </main>
-    <script src="user.js"></script>
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
 </body>
 
 </html>

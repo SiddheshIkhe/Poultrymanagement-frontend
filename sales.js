@@ -1,62 +1,107 @@
+// 🔒 Guard
+let isAddingSales = false;
+
+// ================= INIT =================
 document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("addSalesBtn");
-    if (btn) btn.addEventListener("click", addSales);
+    const addBtn = document.getElementById("addSalesBtn");
+    const getBtn = document.getElementById("getSalesBtn");
+
+    if (addBtn) addBtn.addEventListener("click", addSales);
+    if (getBtn) getBtn.addEventListener("click", getSales);
 });
 
+// ================= ADD SALES =================
 async function addSales() {
-    try {
-        const farmId = localStorage.getItem("farmId");
+    if (isAddingSales) return;
 
-        await fetch(`${BASE_URL}/sales`, {
+    const btn = document.getElementById("addSalesBtn");
+
+    try {
+        isAddingSales = true;
+
+        if (btn) {
+            btn.disabled = true;
+            btn.innerText = "Adding...";
+        }
+
+        const farmId = localStorage.getItem("farmId");
+        if (!farmId) throw new Error("Farm missing");
+
+        const date = document.getElementById("sDate")?.value;
+        const trays = document.getElementById("sTrays")?.value;
+        const rate = document.getElementById("rate")?.value;
+        const payment = document.getElementById("payment")?.value;
+
+        // ✅ Validation
+        if (!date || !trays || !rate || !payment) {
+            throw new Error("All fields are required");
+        }
+
+        const res = await fetch(`${BASE_URL}/sales`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                date: document.getElementById("sDate")?.value,
-                numberOfTrays: document.getElementById("sTrays")?.value,
-                rate: document.getElementById("rate")?.value,
-                paymentMethod: document.getElementById("payment")?.value,
+                date,
+                numberOfTrays: Number(trays),
+                rate: Number(rate),
+                paymentMethod: payment,
                 farm: { id: Number(farmId) }
             })
         });
 
-        alert("Sales added");
+        if (!res.ok) {
+            const text = await res.text();
+            throw new Error(text || "Failed to add sales");
+        }
 
-    } catch {
-        alert("Error adding sales");
+        alert("Sales added successfully");
+
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    } finally {
+        isAddingSales = false;
+
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = "Add Sales";
+        }
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("getSalesBtn");
-    if (btn) btn.addEventListener("click", getSales);
-});
+// ================= GET SALES =================
 async function getSales() {
-    try {
-        const farmId = localStorage.getItem("farmId");
+    const btn = document.getElementById("getSalesBtn");
 
-        if (!farmId) {
-            alert("Farm ID not found");
-            return;
+    try {
+        if (btn) {
+            btn.disabled = true;
+            btn.innerText = "Loading...";
         }
 
-        const url = `${BASE_URL}/sales/${farmId}/filter?from=${sFrom.value}&to=${sTo.value}`;
+        const farmId = localStorage.getItem("farmId");
+        if (!farmId) throw new Error("Farm ID not found");
 
+        const from = document.getElementById("sFrom")?.value;
+        const to = document.getElementById("sTo")?.value;
+
+        if (!from || !to) {
+            throw new Error("Select date range");
+        }
+
+        const url = `${BASE_URL}/sales/${farmId}/filter?from=${from}&to=${to}`;
         console.log("Fetching Sales:", url);
 
         const res = await fetch(url);
 
         if (!res.ok) {
-            throw new Error("Server error: " + res.status);
+            const text = await res.text();
+            throw new Error(text || "Server error");
         }
 
         const data = await res.json();
 
-        console.log("Sales Data:", data); // 🔥 DEBUG
-
-        if (data.length === 0) {
-            salesTable.innerHTML = "<tr><td colspan='5'>No data found</td></tr>";
-            return;
-        }
+        const table = document.getElementById("salesTable");
 
         let html = `
             <tr>
@@ -68,22 +113,31 @@ async function getSales() {
             </tr>
         `;
 
-        data.forEach(d => {
-            html += `
-                <tr>
-                    <td>${d.date}</td>
-                    <td>${d.numberOfTrays ?? 0}</td>   <!-- ✅ FIX -->
-                    <td>${d.rate ?? 0}</td>
-                    <td>${d.totalAmount ?? (d.numberOfTrays * d.rate *30)}</td>
-                    <td>${d.paymentMethod ?? "-"}</td>
-                </tr>
-            `;
-        });
+        if (data.length === 0) {
+            html += `<tr><td colspan="5">No data found</td></tr>`;
+        } else {
+            data.forEach(d => {
+                html += `
+                    <tr>
+                        <td>${d.date}</td>
+                        <td>${d.numberOfTrays ?? 0}</td>
+                        <td>${d.rate ?? 0}</td>
+                        <td>${d.totalAmount ?? (d.numberOfTrays * d.rate * 30)}</td>
+                        <td>${d.paymentMethod ?? "-"}</td>
+                    </tr>
+                `;
+            });
+        }
 
-        salesTable.innerHTML = html;
+        table.innerHTML = html;
 
     } catch (err) {
         console.error(err);
-        alert("Error fetching sales");
+        alert(err.message);
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = "Get Sales Data";
+        }
     }
 }
