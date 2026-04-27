@@ -26,7 +26,7 @@ async function loadTodayDashboardData() {
         );
 
         const birdRes = await fetch(
-            `${BASE_URL}/birds/${farmId}`
+            `${BASE_URL}/chicken-stock/${farmId}`
         );
 
         const feedRes = await fetch(
@@ -34,7 +34,7 @@ async function loadTodayDashboardData() {
         );
 
         const stockRes = await fetch(
-            `${BASE_URL}/egg-stock/${farmId}`
+            `${BASE_URL}/egg-production/${farmId}`
         );
 
         // ================= RESPONSE CHECK =================
