@@ -1,11 +1,13 @@
 // dashboard.js
 
 // ================= INIT =================
+
 document.addEventListener("DOMContentLoaded", () => {
     loadTodayDashboardData();
 });
 
-// ================= LOAD TODAY DATA =================
+// ================= LOAD DASHBOARD DATA =================
+
 async function loadTodayDashboardData() {
 
     try {
@@ -16,17 +18,21 @@ async function loadTodayDashboardData() {
             throw new Error("Farm ID not found");
         }
 
+        // show farm id
+        document.getElementById("fid").innerText =
+            `Farm ID : ${farmId}`;
+
         // today's date
         const today = new Date().toISOString().split("T")[0];
 
-        // ================= FETCH TODAY DATA =================
+        // ================= FETCH DATA =================
 
         const eggRes = await fetch(
             `${BASE_URL}/egg-production/${farmId}/filter?from=${today}&to=${today}`
         );
 
         const birdRes = await fetch(
-            `${BASE_URL}/chicken-stock/${farmId}`
+            `${BASE_URL}/chicken-stock/${farmId}/date?date=${today}`
         );
 
         const feedRes = await fetch(
@@ -34,20 +40,28 @@ async function loadTodayDashboardData() {
         );
 
         const stockRes = await fetch(
-            `${BASE_URL}/egg-production/${farmId}`
+            `${BASE_URL}/egg-production/${farmId}/filter?from=${today}&to=${today}`
         );
 
         // ================= RESPONSE CHECK =================
 
-        if (!eggRes.ok) throw new Error("Failed to fetch egg data");
+        if (!eggRes.ok) {
+            throw new Error("Failed to fetch egg data");
+        }
 
-        if (!birdRes.ok) throw new Error("Failed to fetch bird data");
+        if (!birdRes.ok) {
+            throw new Error("Failed to fetch bird data");
+        }
 
-        if (!feedRes.ok) throw new Error("Failed to fetch feed data");
+        if (!feedRes.ok) {
+            throw new Error("Failed to fetch feed data");
+        }
 
-        if (!stockRes.ok) throw new Error("Failed to fetch stock data");
+        if (!stockRes.ok) {
+            throw new Error("Failed to fetch stock data");
+        }
 
-        // ================= JSON =================
+        // ================= CONVERT JSON =================
 
         const eggData = await eggRes.json();
         const birdData = await birdRes.json();
@@ -59,9 +73,7 @@ async function loadTodayDashboardData() {
         console.log("Feed Data:", feedData);
         console.log("Stock Data:", stockData);
 
-        // ================= CALCULATE TODAY VALUES =================
-
-        // ================= EGGS TODAY =================
+        // ================= TOTAL EGGS =================
 
         let totalEggsToday = 0;
 
@@ -69,15 +81,14 @@ async function loadTodayDashboardData() {
 
             eggData.forEach(e => {
 
-                if (e.totalEggs) {
-                    totalEggsToday += e.totalEggs;
-                }
-
-                else if (e.numberOfTrays) {
-                    totalEggsToday += e.numberOfTrays * 30;
-                }
+                totalEggsToday +=
+                    Number(
+                        e.totalEggs ||
+                        ((e.numberOfTrays || 0) * 30)
+                    );
 
             });
+
         }
 
         // ================= TOTAL BIRDS =================
@@ -85,17 +96,21 @@ async function loadTodayDashboardData() {
         let totalBirds = 0;
 
         if (Array.isArray(birdData)) {
-            totalBirds = birdData.length;
-        }
-        else {
-            totalBirds =
-                birdData.totalBirds ||
-                birdData.count ||
-                birdData.total ||
-                0;
+
+            birdData.forEach(b => {
+
+                totalBirds += Number(
+                    b.totalBirds ||
+                    b.quantity ||
+                    b.numberOfBirds ||
+                    0
+                );
+
+            });
+
         }
 
-        // ================= FEED =================
+        // ================= TOTAL FEED =================
 
         let totalFeed = 0;
 
@@ -103,13 +118,17 @@ async function loadTodayDashboardData() {
 
             feedData.forEach(f => {
 
-                totalFeed +=
-                    Number(f.quantity || f.feedQuantity || 0);
+                totalFeed += Number(
+                    f.quantity ||
+                    f.feedQuantity ||
+                    0
+                );
 
             });
+
         }
 
-        // ================= STOCK =================
+        // ================= TOTAL STOCK =================
 
         let totalStock = 0;
 
@@ -117,17 +136,12 @@ async function loadTodayDashboardData() {
 
             stockData.forEach(s => {
 
-                totalStock +=
-                    Number(s.trays || s.totalTrays || 0);
+                totalStock += Number(
+                    s.numberOfTrays || 0
+                );
 
             });
 
-        } else {
-
-            totalStock =
-                stockData.totalTrays ||
-                stockData.trays ||
-                0;
         }
 
         // ================= UPDATE UI =================
@@ -143,10 +157,15 @@ async function loadTodayDashboardData() {
 
         document.getElementById("eggStock").innerText =
             `${totalStock} Tray`;
-    } catch (err) {
 
-        console.error(err);
+    }
+
+    catch (err) {
+
+        console.error("Dashboard Error:", err);
+
         alert(err.message);
 
     }
+
 }
