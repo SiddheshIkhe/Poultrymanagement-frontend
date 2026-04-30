@@ -175,6 +175,19 @@
                 grid-column: span 1;
             }
         }
+        .view-btn {
+            padding: 10px 20px;
+            background: #e53935;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .view-btn:hover {
+            background: #c62828;
+        }
     </style>
 </head>
 
@@ -240,9 +253,11 @@
             <button id="addVaccinationBtn">Add Vaccination Record</button>
 
         </div>
-        <div>
-            <a href="vaccinationfetch.html">See Vaccination records</a>
-        </div>
+         <div>
+                <button class="view-btn" onclick="window.location.href='vaccinationfetch.html'">
+                    See Vaccination Records
+                </button>
+            </div>
 
     </main>
 <script src="api.js"></script>

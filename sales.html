@@ -155,6 +155,19 @@
                 width: 90%;
             }
         }
+        .view-btn {
+            padding: 10px 20px;
+            background: #e53935;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .view-btn:hover {
+            background: #c62828;
+        }
     </style>
 
 </head>
@@ -188,9 +201,11 @@
             <button id="addSalesBtn">Add</button>
 
         </div>
-        <div>
-            <a href="salesfetch.html">See Sales Record</a>
-        </div>
+         <div>
+                <button class="view-btn" onclick="window.location.href='salesfetch.html'">
+                    See sales Records
+                </button>
+            </div>
 
     </main>
 <script src="api.js"></script>

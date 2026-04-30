@@ -157,6 +157,19 @@
             background: #e53935;
             color: white;
         }
+        .view-btn {
+            padding: 10px 20px;
+            background: #e53935;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .view-btn:hover {
+            background: #c62828;
+        }
     </style>
 </head>
 
@@ -176,10 +189,11 @@
             <input placeholder="Trays" id="trays">
 
             <button id="addEggBtn">Add</button>
-            <div>
-        <a href="eggfetch.html">See Egg Records </a>
-
-        </div>
+             <div>
+                <button class="view-btn" onclick="window.location.href='eggfetch.html'">
+                    See Egg Records
+                </button>
+            </div>
         </div>
        
 

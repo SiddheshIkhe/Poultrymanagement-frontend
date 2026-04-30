@@ -165,6 +165,19 @@
                 padding: 25px;
             }
         }
+        .view-btn {
+            padding: 10px 20px;
+            background: #e53935;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .view-btn:hover {
+            background: #c62828;
+        }
     </style>
 </head>
 
@@ -194,9 +207,11 @@
             <button id="addExpenseBtn">Add</button>
 
         </div>
-        <div>
-            <a href="expensefetch.html">See Expense Records</a>
-        </div>
+         <div>
+                <button class="view-btn" onclick="window.location.href='expensefetch.html'">
+                    See Expense Records
+                </button>
+            </div>
 
     </main>
 <script src="api.js"></script>
